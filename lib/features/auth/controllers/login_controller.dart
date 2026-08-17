@@ -26,19 +26,29 @@ class LoginController extends ChangeNotifier {
   }
 
   String? validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return "This field is required";
-    } else if (!value.trim().contains('@')) {
-      return 'Enter Valid Email';
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
     }
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+
+    if (!emailRegex.hasMatch(value)) {
+      return 'Please enter a valid email';
+    }
+
     return null;
   }
 
   String? validatePassword(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return "This field is required";
-    } else if (value.trim().length < 6) {
-      return 'The Password must be grater than 6.';
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    final passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    );
+    if (!passwordRegex.hasMatch(value)) {
+      return 'Password is too weak. It must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character';
     }
     return null;
   }

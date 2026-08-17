@@ -5,22 +5,14 @@ import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/controllers/register_controller.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
-
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  bool isVisiblePassword = false;
-  bool isVisibleConfirmPassword = false;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RegisterController>(
-      create: (context) => RegisterController(),
-      builder: (context, child) {
+      create: (_) => RegisterController(),
+      builder: (context, _) {
         final controller = context.read<RegisterController>();
 
         return Scaffold(
@@ -53,45 +45,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: Color(0xFF363636),
                       ),
                     ),
-                    const Gap(16),
+                    const Gap(24),
                     CustomTextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: controller.emailController,
                       hintText: 'usama@gmail.com',
                       title: 'Email',
                       validator: controller.validateEmail,
                     ),
-                    const Gap(12),
+                    const Gap(24),
                     CustomTextFormField(
+                      keyboardType: TextInputType.visiblePassword,
                       controller: controller.passwordController,
                       hintText: '*************',
                       title: 'Password',
-                      suffix: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisiblePassword = !isVisiblePassword;
-                          });
-                        },
-                        icon: isVisiblePassword
-                            ? Icon(Icons.visibility_outlined)
-                            : Icon(Icons.visibility_off_outlined),
-                      ),
+                      obscureText: true,
+                      validator: controller.validatePassword,
                     ),
-                    const Gap(12),
+                    const Gap(24),
                     CustomTextFormField(
+                      keyboardType: TextInputType.visiblePassword,
                       controller: controller.confirmPasswordController,
                       hintText: '*************',
                       title: 'Confirm Password',
-                      suffix: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisibleConfirmPassword =
-                                !isVisibleConfirmPassword;
-                          });
-                        },
-                        icon: isVisibleConfirmPassword
-                            ? Icon(Icons.visibility_outlined)
-                            : Icon(Icons.visibility_off_outlined),
-                      ),
+                      obscureText: true,
+                      validator: controller.validateConfirmPassword,
                     ),
                     const Gap(20),
                     ElevatedButton(
@@ -117,9 +95,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Color(0xFF141414),
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            controller.signIn(context);
+                        const Gap(8),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
                           },
                           child: Text(
                             'Sign In',

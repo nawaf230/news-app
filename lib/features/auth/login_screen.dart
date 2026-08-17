@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/controllers/login_controller.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Color(0xFF363636),
                       ),
                     ),
-                    const Gap(16),
+                    const Gap(24),
                     CustomTextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: controller.emailController,
                       hintText: 'usama@gmail.com',
                       title: 'Email',
@@ -61,24 +54,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         return controller.validateEmail(value);
                       },
                     ),
-                    const Gap(12),
+                    const Gap(24),
                     CustomTextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+
                       controller: controller.passwordController,
                       hintText: '*************',
                       title: 'Password',
                       validator: (value) {
                         return controller.validatePassword(value);
                       },
-                      suffix: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisible = !isVisible;
-                          });
-                        },
-                        icon: isVisible
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off),
-                      ),
+                      obscureText: true,
                     ),
                     const Gap(20),
                     ElevatedButton(
@@ -90,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Text("Sign In"),
                     ),
-                    const Gap(24),
+                    const Gap(34),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -102,8 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Color(0xFF141414),
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {
+                        const Gap(8),
+                        GestureDetector(
+                          onTap: () {
                             controller.signUp(context);
                           },
                           child: Text(
@@ -111,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: LightColors.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
                         ),
