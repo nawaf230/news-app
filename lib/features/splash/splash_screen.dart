@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         PreferencesManager().getBool(StorageKey.isLoggedIn) ?? false;
     if (!mounted) return;
     if (!onboardingComplete) {
+      print('=======================$onboardingComplete');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

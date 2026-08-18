@@ -27,92 +27,109 @@ class RegisterScreen extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Image.asset('assets/images/logo.png', height: 46),
-                    ),
-                    const Gap(34),
-                    Text(
-                      'Welcome to Newts',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF363636),
+              child: LayoutBuilder(
+                builder: (BuildContext _, BoxConstraints constraints) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
                       ),
-                    ),
-                    const Gap(24),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: controller.emailController,
-                      hintText: 'usama@gmail.com',
-                      title: 'Email',
-                      validator: controller.validateEmail,
-                    ),
-                    const Gap(24),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: controller.passwordController,
-                      hintText: '*************',
-                      title: 'Password',
-                      obscureText: true,
-                      validator: controller.validatePassword,
-                    ),
-                    const Gap(24),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: controller.confirmPasswordController,
-                      hintText: '*************',
-                      title: 'Confirm Password',
-                      obscureText: true,
-                      validator: controller.validateConfirmPassword,
-                    ),
-                    const Gap(20),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (controller.key.currentState!.validate()) {
-                          controller.signUp(context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 48),
-                      ),
-                      child: Text("Sign Up"),
-                    ),
-                    const Gap(24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Have an account ?',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF141414),
-                          ),
-                        ),
-                        const Gap(8),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: LightColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                height: 46,
+                              ),
                             ),
-                          ),
+                            const Gap(34),
+                            Text(
+                              'Welcome to Newts',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF363636),
+                              ),
+                            ),
+                            const Gap(24),
+                            CustomTextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: controller.emailController,
+                              hintText: 'usama@gmail.com',
+                              title: 'Email',
+                              validator: controller.validateEmail,
+                            ),
+                            const Gap(24),
+                            CustomTextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              controller: controller.passwordController,
+                              hintText: '*************',
+                              title: 'Password',
+                              obscureText: true,
+                              validator: controller.validatePassword,
+                            ),
+                            const Gap(24),
+                            CustomTextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              controller: controller.confirmPasswordController,
+                              hintText: '*************',
+                              title: 'Confirm Password',
+                              obscureText: true,
+                              validator: controller.validateConfirmPassword,
+                            ),
+                            const Gap(20),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (controller.key.currentState!.validate()) {
+                                  controller.register(context);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(
+                                  MediaQuery.of(context).size.width,
+                                  48,
+                                ),
+                              ),
+                              child: Text("Sign Up"),
+                            ),
+                            const Gap(24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Have an account ?',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF141414),
+                                  ),
+                                ),
+                                const Gap(8),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Sign In',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: LightColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ),

@@ -44,12 +44,12 @@ class LoginController extends ChangeNotifier {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
     }
-    final passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-    );
-    if (!passwordRegex.hasMatch(value)) {
-      return 'Password is too weak. It must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character';
-    }
+    // final passwordRegex = RegExp(
+    //   r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    // );
+    // if (!passwordRegex.hasMatch(value)) {
+    //   return 'Password is too weak. It must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character';
+    // }
     return null;
   }
 }

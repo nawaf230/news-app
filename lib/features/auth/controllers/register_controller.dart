@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/storage_key.dart';
+import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
 
 class RegisterController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -7,17 +10,41 @@ class RegisterController extends ChangeNotifier {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  String? errorMessage;
+  bool isLoading = false;
 
-  void signIn(BuildContext context) {}
+  void register(BuildContext context) async {
+    isLoading = true;
+    errorMessage = null;
 
-  void signUp(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return LoginScreen();
-        },
-      ),
-    );
+    notifyListeners();
+
+    // This code means wait 3s.
+    Future.delayed(Duration(seconds: 3));
+
+    final saveEmail = PreferencesManager().getString(StorageKey.userEmail);
+    if (saveEmail != null && emailController.text.trim() == saveEmail) {
+      errorMessage = "User Already Register.";
+      isLoading = false;
+    } else {
+      await PreferencesManager().setString(
+        StorageKey.userEmail,
+        emailController.text.trim(),
+      );
+      await PreferencesManager().setString(
+        StorageKey.userPassword,
+        passwordController.text.trim(),
+      );
+      await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
+
+      if (!context.mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+        (route) => false,
+      );
+    }
   }
 
   String? validateEmail(String? value) {
@@ -51,13 +78,10 @@ class RegisterController extends ChangeNotifier {
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
+    } else if (value != passwordController.text) {
+      return 'Incorrect Password';
     }
-    final passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-    );
-    if (!passwordRegex.hasMatch(value)) {
-      return 'Password is too weak. It must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character';
-    }
+
     return null;
   }
 }
