@@ -7,8 +7,8 @@ class HomeController extends ChangeNotifier {
   List<NewsArticleModel> newsEverythingList = [];
   List<NewsArticleModel> newsTopHeadLineList = [];
   final ApiService apiService = ApiService();
-  bool topHeadLineLoading = true;
-  bool everythingLoading = true;
+  bool topHeadLineLoading = false;
+  bool everythingLoading = false;
   String? errorMessage;
 
   HomeController() {
@@ -18,6 +18,9 @@ class HomeController extends ChangeNotifier {
 
   void getTopHeadLine() async {
     try {
+      topHeadLineLoading = true;
+      notifyListeners();
+
       final result = await apiService.get(
         queryParameters: {'country': 'us'},
         ApiConfig.topHeadLines,
@@ -39,6 +42,9 @@ class HomeController extends ChangeNotifier {
 
   void getEverything() async {
     try {
+      everythingLoading = true;
+      notifyListeners();
+
       final result = await apiService.get(
         queryParameters: {'q': 'science'},
         ApiConfig.everything,

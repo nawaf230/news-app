@@ -20,12 +20,13 @@ class RegisterController extends ChangeNotifier {
     notifyListeners();
 
     // This code means wait 3s.
-    Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 2));
 
     final saveEmail = PreferencesManager().getString(StorageKey.userEmail);
     if (saveEmail != null && emailController.text.trim() == saveEmail) {
       errorMessage = "User Already Register.";
       isLoading = false;
+      notifyListeners();
     } else {
       await PreferencesManager().setString(
         StorageKey.userEmail,
@@ -41,7 +42,7 @@ class RegisterController extends ChangeNotifier {
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
         (route) => false,
       );
     }

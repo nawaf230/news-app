@@ -66,15 +66,51 @@ class LoginScreen extends StatelessWidget {
                       },
                       obscureText: true,
                     ),
-                    const Gap(20),
-                    ElevatedButton(
-                      onPressed: () {
-                        controller.signIn(context);
+                    Selector<LoginController, String?>(
+                      selector: (_, LoginController controller) =>
+                          controller.errorMessage,
+                      builder: (context, errorMessage, child) {
+                        return errorMessage == null
+                            ? SizedBox()
+                            : Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  errorMessage,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFFC62828),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              );
                       },
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 48),
-                      ),
-                      child: Text("Sign In"),
+                    ),
+                    const Gap(20),
+                    Selector<LoginController, bool>(
+                      selector: (_, controller) => controller.isLoading,
+                      builder: (context, isLoading, child) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            controller.login(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(
+                              MediaQuery.of(context).size.width,
+                              48,
+                            ),
+                          ),
+                          child: isLoading
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                              : Text("Sign In"),
+                        );
+                      },
                     ),
                     const Gap(34),
                     Row(
@@ -91,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                         const Gap(8),
                         GestureDetector(
                           onTap: () {
-                            controller.signUp(context);
+                            controller.toRegister(context);
                           },
                           child: Text(
                             'Sign Up',

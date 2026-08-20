@@ -127,11 +127,11 @@ ThemeData lightTheme = ThemeData(
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(width: 1, color: Color(0xFFC62828)),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(width: 1, color: Color(0xFFC62828)),
     ),
   ),
   // checkboxTheme: CheckboxThemeData(

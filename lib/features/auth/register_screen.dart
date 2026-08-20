@@ -31,21 +31,14 @@ class RegisterScreen extends StatelessWidget {
                 builder: (BuildContext _, BoxConstraints constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Center(
-                              child: Image.asset(
-                                'assets/images/logo.png',
-                                height: 46,
-                              ),
-                            ),
+                            Center(child: Image.asset('assets/images/logo.png', height: 46)),
                             const Gap(34),
                             Text(
                               'Welcome to Newts',
@@ -81,20 +74,49 @@ class RegisterScreen extends StatelessWidget {
                               obscureText: true,
                               validator: controller.validateConfirmPassword,
                             ),
-                            const Gap(20),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (controller.key.currentState!.validate()) {
-                                  controller.register(context);
-                                }
+                            Selector<RegisterController, String?>(
+                              selector: (_, controller) => controller.errorMessage,
+                              builder: (context, errorMessage, _) {
+                                return (errorMessage == null)
+                                    ? SizedBox()
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          errorMessage,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFFC62828),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      );
                               },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  48,
-                                ),
-                              ),
-                              child: Text("Sign Up"),
+                            ),
+                            const Gap(20),
+                            Selector<RegisterController, bool>(
+                              selector: (BuildContext _, controller) => controller.isLoading,
+                              builder: (BuildContext context, bool isLoading, Widget? _) {
+                                return ElevatedButton(
+                                  onPressed: () {
+                                    if (controller.key.currentState!.validate()) {
+                                      controller.register(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    fixedSize: Size(MediaQuery.of(context).size.width, 48),
+                                  ),
+                                  child: isLoading
+                                      ? SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.black,
+                                            strokeWidth: 3,
+                                          ),
+                                        )
+                                      : Text("Sign Up"),
+                                );
+                              },
                             ),
                             const Gap(24),
                             Row(
