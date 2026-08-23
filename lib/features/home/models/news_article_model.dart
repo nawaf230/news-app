@@ -4,7 +4,7 @@ class NewsArticleModel {
   final String description;
   final String url;
   final String urlToImage;
-  final String publishedAt;
+  final DateTime publishedAt;
   final String content;
 
   NewsArticleModel({
@@ -19,13 +19,13 @@ class NewsArticleModel {
 
   factory NewsArticleModel.formJson(Map<String, dynamic> map) {
     return NewsArticleModel(
-      author: map['author'] ?? "",
-      title: map['title'] ?? "",
-      description: map['description'] ?? "",
-      url: map['url'] ?? "",
-      urlToImage: map['urlToImage'] ?? "",
-      publishedAt: map['publishedAt'] ?? "",
-      content: map['content'] ?? "",
+      author: map['author'] ?? 'author Not Found',
+      title: map['title'] ?? 'title Not Found',
+      description: map['description'] ?? 'description Not Found',
+      url: map['url'] ?? 'url Not Found',
+      urlToImage: map['urlToImage'] ?? 'urlToImage Not Found',
+      publishedAt: DateTime.tryParse(map['publishedAt']) ?? DateTime.now(),
+      content: map['content'] ?? 'content Not Found',
     );
   }
 
@@ -52,5 +52,24 @@ class NewsArticleModel {
         'publishedAt: $publishedAt, '
         'content: $content'
         ')';
+  }
+
+  /// TODO : Refactor
+  String formatDateTime() {
+    final diff = DateTime.now().difference(publishedAt);
+
+    if (diff.inSeconds < 60) {
+      return '${diff.inMinutes}s ago';
+    }
+    if (diff.inMinutes < 60) {
+      return '${diff.inMinutes}m ago';
+    }
+    if (diff.inHours < 24) {
+      return '${diff.inHours}h ago';
+    }
+    if (diff.inDays < 30) {
+      return '${diff.inDays}d ago';
+    }
+    return '${diff.inDays ~/ 30}mo ago';
   }
 }

@@ -96,20 +96,12 @@ ThemeData lightTheme = ThemeData(
     //     fontWeight: FontWeight.w400,
     //     color: Color(0xFF161F1B),
     //   ),
-    labelMedium: TextStyle(
-      color: Color(0xFF000000),
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-    ),
+    labelMedium: TextStyle(color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w400),
     //   labelLarge: TextStyle(),
   ),
 
   inputDecorationTheme: InputDecorationThemeData(
-    hintStyle: TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: Color(0xFF363636),
-    ),
+    hintStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF363636)),
     // To change the background color.
     filled: true,
     fillColor: Color(0xFFFFFFFF),
@@ -117,14 +109,8 @@ ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 1),
     ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide.none,
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide.none,
-    ),
+    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide.none),
+    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide.none),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
       borderSide: BorderSide(width: 1, color: Color(0xFFC62828)),

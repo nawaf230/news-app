@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
-import 'package:news_app/features/main/main_screen.dart';
 
 class RegisterController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();

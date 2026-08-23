@@ -3,7 +3,6 @@ import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import 'package:news_app/features/home/home_screen.dart';
-import 'package:news_app/features/main/main_screen.dart';
 
 class LoginController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -23,9 +22,7 @@ class LoginController extends ChangeNotifier {
       await Future.delayed(Duration(seconds: 2));
 
       final savedEmail = PreferencesManager().getString(StorageKey.userEmail);
-      final savedPassword = PreferencesManager().getString(
-        StorageKey.userPassword,
-      );
+      final savedPassword = PreferencesManager().getString(StorageKey.userPassword);
       if (savedEmail == null && savedPassword == null) {
         isLoading = false;
         errorMessage = 'No Account Found Please Register First.';
@@ -43,10 +40,7 @@ class LoginController extends ChangeNotifier {
 
       await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
       if (!context.mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
@@ -64,9 +58,7 @@ class LoginController extends ChangeNotifier {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
     }
-    final emailRegex = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
     if (!emailRegex.hasMatch(value)) {
       return 'Please enter a valid email';

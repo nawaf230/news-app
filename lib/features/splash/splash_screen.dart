@@ -3,7 +3,6 @@ import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/home/home_screen.dart';
-import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {

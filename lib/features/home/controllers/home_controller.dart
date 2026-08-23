@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/datasource/remote_data/api_config.dart';
 import 'package:news_app/core/datasource/remote_data/api_service.dart';
+import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
 
 class HomeController extends ChangeNotifier {
   List<NewsArticleModel> newsEverythingList = [];
   List<NewsArticleModel> newsTopHeadLineList = [];
   final ApiService apiService = ApiService();
-  bool topHeadLineLoading = false;
-  bool everythingLoading = false;
+
+  RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
+  RequestStatusEnum topHeadLineStatus = RequestStatusEnum.loading;
   String? errorMessage;
+
+  String selectedCategory = 'general';
 
   HomeController() {
     getTopHeadLine();
     getEverything();
   }
 
-  void getTopHeadLine() async {
+  void getTopHeadLine({String? categories}) async {
     try {
-      topHeadLineLoading = true;
-      notifyListeners();
-
       final result = await apiService.get(
-        queryParameters: {'country': 'us'},
+        params: {'country': 'us', 'category': selectedCategory},
         ApiConfig.topHeadLines,
       );
 
@@ -30,10 +31,10 @@ class HomeController extends ChangeNotifier {
           .map((e) => NewsArticleModel.formJson(e))
           .toList();
 
-      topHeadLineLoading = false;
+      topHeadLineStatus = RequestStatusEnum.loaded;
     } catch (e) {
       errorMessage = e.toString();
-      topHeadLineLoading = false;
+      topHeadLineStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
 
@@ -42,12 +43,9 @@ class HomeController extends ChangeNotifier {
 
   void getEverything() async {
     try {
-      everythingLoading = true;
-      notifyListeners();
-
-      final result = await apiService.get(
-        queryParameters: {'q': 'science'},
+      final Map<String, dynamic> result = await apiService.get(
         ApiConfig.everything,
+        params: {'q': 'science', 'language': 'en'},
       );
 
       newsEverythingList = (result['articles'] as List)
@@ -57,12 +55,19 @@ class HomeController extends ChangeNotifier {
       newsEverythingList = (result['articles'] as List)
           .map((e) => NewsArticleModel.formJson(e))
           .toList();
-      everythingLoading = false;
+      everythingStatus = RequestStatusEnum.loaded;
     } catch (e) {
-      everythingLoading = false;
+      everythingStatus = RequestStatusEnum.error;
 
       errorMessage = e.toString();
     }
+
+    notifyListeners();
+  }
+
+  void updateSelectedCategory(String category) {
+    selectedCategory = category;
+    getTopHeadLine(categories: selectedCategory);
 
     notifyListeners();
   }
