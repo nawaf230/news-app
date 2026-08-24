@@ -3,7 +3,7 @@ class NewsArticleModel {
   final String title;
   final String description;
   final String url;
-  final String urlToImage;
+  final String? urlToImage;
   final DateTime publishedAt;
   final String content;
 
@@ -23,7 +23,7 @@ class NewsArticleModel {
       title: map['title'] ?? 'title Not Found',
       description: map['description'] ?? 'description Not Found',
       url: map['url'] ?? 'url Not Found',
-      urlToImage: map['urlToImage'] ?? 'urlToImage Not Found',
+      urlToImage: map['urlToImage'],
       publishedAt: DateTime.tryParse(map['publishedAt']) ?? DateTime.now(),
       content: map['content'] ?? 'content Not Found',
     );
@@ -52,24 +52,5 @@ class NewsArticleModel {
         'publishedAt: $publishedAt, '
         'content: $content'
         ')';
-  }
-
-  /// TODO : Refactor
-  String formatDateTime() {
-    final diff = DateTime.now().difference(publishedAt);
-
-    if (diff.inSeconds < 60) {
-      return '${diff.inMinutes}s ago';
-    }
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}m ago';
-    }
-    if (diff.inHours < 24) {
-      return '${diff.inHours}h ago';
-    }
-    if (diff.inDays < 30) {
-      return '${diff.inDays}d ago';
-    }
-    return '${diff.inDays ~/ 30}mo ago';
   }
 }

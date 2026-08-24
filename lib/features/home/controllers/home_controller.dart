@@ -11,7 +11,8 @@ class HomeController extends ChangeNotifier {
 
   RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
   RequestStatusEnum topHeadLineStatus = RequestStatusEnum.loading;
-  String? errorMessage;
+  String? everythingErrorMessage;
+  String? topHeadLineErrorMessage;
 
   String selectedCategory = 'general';
 
@@ -21,6 +22,8 @@ class HomeController extends ChangeNotifier {
   }
 
   void getTopHeadLine({String? categories}) async {
+    topHeadLineStatus = RequestStatusEnum.loading;
+    notifyListeners();
     try {
       final result = await apiService.get(
         params: {'country': 'us', 'category': selectedCategory},
@@ -33,9 +36,8 @@ class HomeController extends ChangeNotifier {
 
       topHeadLineStatus = RequestStatusEnum.loaded;
     } catch (e) {
-      errorMessage = e.toString();
+      topHeadLineErrorMessage = e.toString();
       topHeadLineStatus = RequestStatusEnum.error;
-      errorMessage = e.toString();
     }
 
     notifyListeners();
@@ -48,18 +50,13 @@ class HomeController extends ChangeNotifier {
         params: {'q': 'science', 'language': 'en'},
       );
 
-      newsEverythingList = (result['articles'] as List)
-          .map((e) => NewsArticleModel.formJson(e))
-          .toList();
-
-      newsEverythingList = (result['articles'] as List)
+      newsEverythingList = (result['articles'] as List).reversed
           .map((e) => NewsArticleModel.formJson(e))
           .toList();
       everythingStatus = RequestStatusEnum.loaded;
     } catch (e) {
+      everythingErrorMessage = e.toString();
       everythingStatus = RequestStatusEnum.error;
-
-      errorMessage = e.toString();
     }
 
     notifyListeners();

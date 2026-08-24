@@ -7,16 +7,12 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(),
   scaffoldBackgroundColor: LightColors.backgroundColor,
   primaryColor: LightColors.primaryColor,
-  // appBarTheme: AppBarTheme(
-  //   backgroundColor: Color(0xFFFFFFFF),
-  //   titleTextStyle: TextStyle(
-  // fontSize: 20,
-  // fontWeight: FontWeight.w400,
-  // color: Color(0xFF161F1B),
-  // ),
-  // iconTheme: IconThemeData(color: Color(0xFF161F1B)),
-  // centerTitle: true,
-  // ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Color(0xFFFFFFFF),
+    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
+    iconTheme: IconThemeData(color: Colors.black),
+    centerTitle: true,
+  ),
   // switchTheme: SwitchThemeData(
   //   trackColor: WidgetStateProperty.resolveWith((states) {
   //     if (states.contains(WidgetState.selected)) {

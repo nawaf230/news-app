@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/extensions/date_time_extensions.dart';
 import 'package:news_app/core/theme/light_color.dart';
+import 'package:news_app/core/widgets/custom_cached_network_image.dart';
+import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_components.dart';
 import 'package:news_app/features/home/controllers/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -36,19 +39,24 @@ class TrendingNews extends StatelessWidget {
                       builder: (context, controller, child) {
                         switch (controller.everythingStatus) {
                           case RequestStatusEnum.loading:
-                            return Center(child: CircularProgressIndicator());
+                            return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
                             return Center(
                               child: Text(
-                                controller.errorMessage.toString(),
+                                controller.everythingErrorMessage.toString(),
                                 textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             );
                           case RequestStatusEnum.loaded:
                             return ListView.separated(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               separatorBuilder: (context, index) => const Gap(12),
-                              itemCount: controller.newsEverythingList.length,
+                              itemCount: controller.newsEverythingList.take(6).length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 final module = controller.newsEverythingList[index];
@@ -59,14 +67,18 @@ class TrendingNews extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(12),
                                     child: Stack(
                                       children: [
-                                        if (controller.newsEverythingList[index].urlToImage !=
-                                            'urlToImage Not Found')
-                                          Image.network(
+                                        if (controller.newsEverythingList[index].urlToImage != null)
+                                          CustomCachedNetworkImage(
+                                            imagePath: module.urlToImage!,
                                             width: 240,
                                             height: 140,
-                                            fit: BoxFit.cover,
-                                            module.urlToImage,
                                           ),
+                                        // Image.network(
+                                        //   width: 240,
+                                        //   height: 140,
+                                        //   fit: BoxFit.cover,
+                                        //   module.urlToImage!,
+                                        // ),
                                         Positioned.fill(
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -128,7 +140,7 @@ class TrendingNews extends StatelessWidget {
                                                   ),
                                                   const Gap(8),
                                                   Text(
-                                                    module.formatDateTime(),
+                                                    module.publishedAt.formatDateTime(),
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
