@@ -7,6 +7,7 @@ import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_components.dart';
 import 'package:news_app/features/home/controllers/home_controller.dart';
+import 'package:news_app/features/home/trending_news_screen.dart';
 import 'package:provider/provider.dart';
 
 class TrendingNews extends StatelessWidget {
@@ -16,7 +17,7 @@ class TrendingNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 330,
+        height: 325,
         child: Stack(
           children: [
             SizedBox(
@@ -30,7 +31,21 @@ class TrendingNews extends StatelessWidget {
                 children: [
                   Text('NEWST', style: TextStyle(fontSize: 40, color: LightColors.primaryColor)),
                   const Gap(6),
-                  ViewAllComponents(title: 'Trending News', onTap: () {}),
+                  ViewAllComponents(
+                    title: 'Trending News',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return ChangeNotifierProvider.value(
+                              value: context.read<HomeController>(),
+                              child: TrendingNewsScreen(),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
                   const Gap(12),
                   SizedBox(
                     height: 140,
@@ -56,10 +71,10 @@ class TrendingNews extends StatelessWidget {
                             return ListView.separated(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               separatorBuilder: (context, index) => const Gap(12),
-                              itemCount: controller.newsEverythingList.take(6).length,
+                              itemCount: controller.newsEverythingList.take(8).length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                final module = controller.newsEverythingList[index];
+                                final model = controller.newsEverythingList[index];
 
                                 return SizedBox(
                                   width: 240,
@@ -69,7 +84,7 @@ class TrendingNews extends StatelessWidget {
                                       children: [
                                         if (controller.newsEverythingList[index].urlToImage != null)
                                           CustomCachedNetworkImage(
-                                            imagePath: module.urlToImage!,
+                                            imagePath: model.urlToImage!,
                                             width: 240,
                                             height: 140,
                                           ),
@@ -102,7 +117,7 @@ class TrendingNews extends StatelessWidget {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                module.title,
+                                                model.title,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -120,13 +135,13 @@ class TrendingNews extends StatelessWidget {
                                                         CircleAvatar(
                                                           radius: 10,
                                                           backgroundImage: NetworkImage(
-                                                            module.urlToImage.toString(),
+                                                            model.urlToImage.toString(),
                                                           ),
                                                         ),
                                                         const Gap(5),
                                                         Expanded(
                                                           child: Text(
-                                                            module.author,
+                                                            model.author,
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                               fontWeight: FontWeight.w400,
@@ -140,7 +155,7 @@ class TrendingNews extends StatelessWidget {
                                                   ),
                                                   const Gap(8),
                                                   Text(
-                                                    module.publishedAt.formatDateTime(),
+                                                    model.publishedAt.formatDateTime(),
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,

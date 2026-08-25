@@ -21,8 +21,14 @@ class CategoriesList extends StatelessWidget {
                 title: 'Categories',
                 titleColor: Color(0xFF141414),
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => CategoriesScreen()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ChangeNotifierProvider.value(
+                        value: Provider.of<HomeController>(context, listen: false),
+                        child: CategoriesScreen(),
+                      ),
+                    ),
+                  );
                 },
               ),
               Padding(

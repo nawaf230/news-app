@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
-import 'package:news_app/features/home/home_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,8 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //  onboarding
     final bool onboardingComplete =
         PreferencesManager().getBool(StorageKey.onboardingComplete) ?? false;
-    final bool isLoggedIn =
-        PreferencesManager().getBool(StorageKey.isLoggedIn) ?? false;
+    final bool isLoggedIn = PreferencesManager().getBool(StorageKey.isLoggedIn) ?? false;
     if (!mounted) return;
     if (!onboardingComplete) {
       Navigator.pushReplacement(
@@ -51,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return HomeScreen();
+            return MainScreen();
           },
         ),
       );
@@ -61,11 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Image.asset(
-        'assets/images/splash.png',
-        width: double.infinity,
-        fit: BoxFit.fill,
-      ),
+      body: Image.asset('assets/images/splash.png', width: double.infinity, fit: BoxFit.fill),
     );
   }
 }
