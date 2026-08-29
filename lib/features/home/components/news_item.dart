@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/extensions/date_time_extensions.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
@@ -13,14 +13,14 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.only(right: AppSizes.w16, left: AppSizes.w16, bottom: AppSizes.h16),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSizes.r8),
             child: CustomCachedNetworkImage(imagePath: model.urlToImage ?? ''),
           ),
-          const Gap(8),
+          SizedBox(width: AppSizes.h8),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -29,7 +29,7 @@ class NewsItem extends StatelessWidget {
                 Text(
                   model.title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: AppSizes.sp16,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF141414),
                   ),
@@ -37,21 +37,21 @@ class NewsItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: .start,
                 ),
-                const Gap(12),
+                SizedBox(height: AppSizes.h8),
                 Row(
                   children: [
                     model.urlToImage != null
                         ? CircleAvatar(backgroundImage: NetworkImage(model.urlToImage!), radius: 10)
-                        : SizedBox(height: 20, width: 20),
-                    const Gap(4),
+                        : SizedBox(height: AppSizes.h20, width: AppSizes.w20),
+                    SizedBox(width: AppSizes.w4),
                     SizedBox(
-                      width: 70,
-                      height: 20,
+                      width: AppSizes.w70,
+                      height: AppSizes.h20,
                       child: Text(
                         textAlign: TextAlign.start,
                         model.author,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: AppSizes.sp12,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF141414),
                         ),
@@ -59,12 +59,12 @@ class NewsItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Gap(4),
+                    SizedBox(width: AppSizes.w4),
                     Expanded(
                       child: Text(
                         model.publishedAt.formatDateTime(),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: AppSizes.sp12,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF363636),
                         ),

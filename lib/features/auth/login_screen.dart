@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/controllers/login_controller.dart';
 import 'package:provider/provider.dart';
@@ -27,24 +28,22 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(AppSizes.w16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Image.asset('assets/images/logo.png', height: 46),
-                    ),
-                    const Gap(34),
+                    Center(child: Image.asset('assets/images/logo.png', height: 46)),
+                    SizedBox(height: AppSizes.h34),
                     Text(
                       'Welcome to Newts',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: AppSizes.sp20,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF363636),
                       ),
                     ),
-                    const Gap(24),
+                    SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
                       keyboardType: TextInputType.emailAddress,
                       controller: controller.emailController,
@@ -54,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                         return controller.validateEmail(value);
                       },
                     ),
-                    const Gap(24),
+                    SizedBox(height: AppSizes.h24,),
                     CustomTextFormField(
                       keyboardType: TextInputType.visiblePassword,
 
@@ -67,17 +66,16 @@ class LoginScreen extends StatelessWidget {
                       obscureText: true,
                     ),
                     Selector<LoginController, String?>(
-                      selector: (_, LoginController controller) =>
-                          controller.errorMessage,
+                      selector: (_, LoginController controller) => controller.errorMessage,
                       builder: (context, errorMessage, child) {
                         return errorMessage == null
                             ? SizedBox()
                             : Padding(
-                                padding: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(AppSizes.w8),
                                 child: Text(
                                   errorMessage,
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: AppSizes.sp15,
                                     color: Color(0xFFC62828),
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -94,10 +92,7 @@ class LoginScreen extends StatelessWidget {
                             controller.login(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            fixedSize: Size(
-                              MediaQuery.of(context).size.width,
-                              48,
-                            ),
+                            fixedSize: Size(MediaQuery.of(context).size.width, 48),
                           ),
                           child: isLoading
                               ? SizedBox(

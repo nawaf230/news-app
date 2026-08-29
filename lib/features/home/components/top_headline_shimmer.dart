@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TopHeadlineShimmer extends StatelessWidget {
@@ -8,14 +8,15 @@ class TopHeadlineShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverList.separated(
-      separatorBuilder: (context, index) => const Gap(0),
+      separatorBuilder: (context, index) => SizedBox( ),
       itemCount: 10,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),          child: Shimmer.fromColors(
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.w16, vertical: AppSizes.h8),
+          child: Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
-            child: Container(height: 80, color: Colors.white),
+            child: Container(height: AppSizes.h80, color: Colors.white),
           ),
         );
       },

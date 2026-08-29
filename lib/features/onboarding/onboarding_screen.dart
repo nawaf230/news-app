@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
@@ -47,7 +48,7 @@ class OnboardingScreen extends StatelessWidget {
                             child: Text(
                               'Skip',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: AppSizes.sp14,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -57,7 +58,7 @@ class OnboardingScreen extends StatelessWidget {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: AppSizes.h16),
               child: Column(
                 children: [
                   Expanded(
@@ -72,33 +73,24 @@ class OnboardingScreen extends StatelessWidget {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              OnboardingModel.onboardingList[index].imagePath,
-                            ),
-                            const Gap(24),
+                            Image.asset(OnboardingModel.onboardingList[index].imagePath),
+                            SizedBox(height: AppSizes.h24),
                             Text(
                               OnboardingModel.onboardingList[index].title,
                               style: TextStyle(
                                 color: Color(0xFF4E4B66),
-                                fontSize: 20,
+                                fontSize: AppSizes.sp20,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const Gap(12),
+                            SizedBox(height: AppSizes.h12),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
                               child: Text(
-                                OnboardingModel
-                                    .onboardingList[index]
-                                    .description,
+                                OnboardingModel.onboardingList[index].description,
 
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF6E7191),
-                                  fontSize: 16,
-                                ),
+                                style: TextStyle(color: Color(0xFF6E7191), fontSize: AppSizes.sp16),
                               ),
                             ),
                           ],
@@ -130,13 +122,11 @@ class OnboardingScreen extends StatelessWidget {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 48),
+                        fixedSize: Size(MediaQuery.of(context).size.width, AppSizes.h48),
                       ),
                       child: Consumer<OnboardingController>(
                         builder: (context, OnboardingController controller, _) {
-                          return controller.isLastPage
-                              ? Text('Get Started')
-                              : Text('Next');
+                          return controller.isLastPage ? Text('Get Started') : Text('Next');
                         },
                       ),
                     ),

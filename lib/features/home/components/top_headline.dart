@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/features/home/components/news_item.dart';
 import 'package:news_app/features/home/components/top_headline_shimmer.dart';
@@ -21,7 +22,11 @@ class TopHeadLine extends StatelessWidget {
                 child: Text(
                   controller.topHeadLineErrorMessage.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: AppSizes.sp15,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             );

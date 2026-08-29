@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
@@ -14,11 +15,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'News App',
-      theme: lightTheme,
-      home: SplashScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'News App',
+        theme: lightTheme,
+        home: SplashScreen(),
+      ),
     );
   }
 }
