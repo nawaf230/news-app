@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
-import 'package:news_app/features/home/repos/news_repository.dart';
 
-class HomeController extends ChangeNotifier {
+class HomeController extends ChangeNotifier with SafeNotifyMixin {
   List<NewsArticleModel> newsEverythingList = [];
   List<NewsArticleModel> newsTopHeadLineList = [];
 
@@ -15,7 +16,7 @@ class HomeController extends ChangeNotifier {
   String selectedCategory = 'general';
 
   // Here I create Object in
-  final NewsRepository newsRepository;
+  final BaseNewsRepository newsRepository;
 
   HomeController(this.newsRepository) {
     getTopHeadLine();
@@ -24,7 +25,7 @@ class HomeController extends ChangeNotifier {
 
   void getTopHeadLine({String? categories}) async {
     topHeadLineStatus = RequestStatusEnum.loading;
-    notifyListeners();
+    safeNotify();
     try {
       newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory);
       topHeadLineStatus = RequestStatusEnum.loaded;
@@ -33,25 +34,25 @@ class HomeController extends ChangeNotifier {
       topHeadLineStatus = RequestStatusEnum.error;
     }
 
-    notifyListeners();
+    safeNotify();
   }
 
   void getEverything() async {
     try {
-      newsEverythingList = await newsRepository.getEverything(selectedCategory: selectedCategory);
+      newsEverythingList = await newsRepository.getEverything();
       everythingStatus = RequestStatusEnum.loaded;
     } catch (e) {
       everythingErrorMessage = e.toString();
       everythingStatus = RequestStatusEnum.error;
     }
 
-    notifyListeners();
+    safeNotify();
   }
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     getTopHeadLine(categories: selectedCategory);
 
-    notifyListeners();
+    safeNotify();
   }
 }

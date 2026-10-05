@@ -3,21 +3,18 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news_app/core/datasource/remote_data/api_config.dart';
 
-// ToDo: Make this class Singleton.
-class ApiService {
-  static final ApiService _apiService = ApiService._();
+abstract class BaseApiService {
+  Future<dynamic> get(String endpoint, {Map<String, dynamic>? params});
+}
 
-  factory ApiService() {
-    return _apiService;
-  }
-
-  ApiService._();
-
+class ApiService extends BaseApiService {
+  @override
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params}) async {
     var url = Uri.http(ApiConfig.baseUrl, 'v2/$endpoint', {'apiKey': ApiConfig.apiKey, ...?params});
 
+    print(url);
     try {
-      // Here I sent the Request and I wait the Response.
+      // Here I sent the Request and I wait xthe Response.
       final response = await http.get(url);
 
       return jsonDecode(response.body) as Map<String, dynamic>;

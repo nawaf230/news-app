@@ -29,113 +29,118 @@ class LoginScreen extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.all(AppSizes.w16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(child: Image.asset('assets/images/logo.png', height: 46)),
-                    SizedBox(height: AppSizes.h34),
-                    Text(
-                      'Welcome to Newts',
-                      style: TextStyle(
-                        fontSize: AppSizes.sp20,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF363636),
-                      ),
-                    ),
-                    SizedBox(height: AppSizes.h24),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: controller.emailController,
-                      hintText: 'usama@gmail.com',
-                      title: 'Email',
-                      validator: (value) {
-                        return controller.validateEmail(value);
-                      },
-                    ),
-                    SizedBox(height: AppSizes.h24,),
-                    CustomTextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-
-                      controller: controller.passwordController,
-                      hintText: '*************',
-                      title: 'Password',
-                      validator: (value) {
-                        return controller.validatePassword(value);
-                      },
-                      obscureText: true,
-                    ),
-                    Selector<LoginController, String?>(
-                      selector: (_, LoginController controller) => controller.errorMessage,
-                      builder: (context, errorMessage, child) {
-                        return errorMessage == null
-                            ? SizedBox()
-                            : Padding(
-                                padding: EdgeInsets.all(AppSizes.w8),
-                                child: Text(
-                                  errorMessage,
-                                  style: TextStyle(
-                                    fontSize: AppSizes.sp15,
-                                    color: Color(0xFFC62828),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              );
-                      },
-                    ),
-                    const Gap(20),
-                    Selector<LoginController, bool>(
-                      selector: (_, controller) => controller.isLoading,
-                      builder: (context, isLoading, child) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            controller.login(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size(MediaQuery.of(context).size.width, 48),
-                          ),
-                          child: isLoading
-                              ? SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.black,
-                                    strokeWidth: 3,
-                                  ),
-                                )
-                              : Text("Sign In"),
-                        );
-                      },
-                    ),
-                    const Gap(34),
-                    Row(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(child: Image.asset('assets/images/logo.png', height: 46)),
+                        SizedBox(height: AppSizes.h34),
                         Text(
-                          'Don’t have an account ?',
+                          'Welcome to Newts',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF141414),
+                            fontSize: AppSizes.sp20,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF363636),
                           ),
                         ),
-                        const Gap(8),
-                        GestureDetector(
-                          onTap: () {
-                            controller.toRegister(context);
+                        SizedBox(height: AppSizes.h24),
+                        CustomTextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: controller.emailController,
+                          hintText: 'usama@gmail.com',
+                          title: 'Email',
+                          validator: (value) {
+                            return controller.validateEmail(value);
                           },
-                          child: Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).primaryColor,
+                        ),
+                        SizedBox(height: AppSizes.h24),
+                        CustomTextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+
+                          controller: controller.passwordController,
+                          hintText: '*************',
+                          title: 'Password',
+                          validator: (value) {
+                            return controller.validatePassword(value);
+                          },
+                          obscureText: true,
+                        ),
+
+                        Selector<LoginController, String?>(
+                          selector: (_, LoginController controller) => controller.errorMessage,
+                          builder: (context, errorMessage, child) {
+                            return errorMessage == null
+                                ? SizedBox()
+                                : Padding(
+                                    padding: EdgeInsets.all(AppSizes.w8),
+                                    child: Text(
+                                      errorMessage,
+                                      style: TextStyle(
+                                        fontSize: AppSizes.sp15,
+                                        color: Color(0xFFC62828),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                          },
+                        ),
+                        const Gap(20),
+                        Selector<LoginController, bool>(
+                          selector: (_, controller) => controller.isLoading,
+                          builder: (context, isLoading, child) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                controller.login(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(MediaQuery.of(context).size.width, 48),
+                              ),
+                              child: isLoading
+                                  ? SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.black,
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                  : Text("Sign In"),
+                            );
+                          },
+                        ),
+                        const Gap(34),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don’t have an account ?',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF141414),
+                              ),
                             ),
-                          ),
+                            const Gap(8),
+                            GestureDetector(
+                              onTap: () {
+                                controller.toRegister(context);
+                              },
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

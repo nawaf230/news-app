@@ -50,6 +50,14 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             const Gap(24),
                             CustomTextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: controller.userNameController,
+                              hintText: 'username123',
+                              title: 'User Name',
+                              validator: controller.validateUserName,
+                            ),
+                            const Gap(24),
+                            CustomTextFormField(
                               keyboardType: TextInputType.emailAddress,
                               controller: controller.emailController,
                               hintText: 'usama@gmail.com',

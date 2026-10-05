@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/features/auth/register_screen.dart';
-import 'package:news_app/features/home/home_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
 
 class LoginController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -21,26 +22,21 @@ class LoginController extends ChangeNotifier {
       // This code means wait 2s.
       await Future.delayed(Duration(seconds: 2));
 
-      final savedEmail = PreferencesManager().getString(StorageKey.userEmail);
-      final savedPassword = PreferencesManager().getString(StorageKey.userPassword);
-      if (savedEmail == null && savedPassword == null) {
-        isLoading = false;
-        errorMessage = 'No Account Found Please Register First.';
-        notifyListeners();
-        return;
-      }
+      final error = UserRepository().login(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
 
-      if (savedEmail != emailController.text.trim() ||
-          savedPassword != passwordController.text.trim()) {
+      if (error != null) {
         isLoading = false;
-        errorMessage = 'Incorrect Email or Password';
+        errorMessage = error;
         notifyListeners();
         return;
       }
 
       await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
       if (!context.mounted) return;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
     }
   }
 

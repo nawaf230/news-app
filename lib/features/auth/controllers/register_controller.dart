@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
-import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
+import 'package:news_app/features/main/main_screen.dart';
 
 class RegisterController extends ChangeNotifier {
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   String? errorMessage;
   bool isLoading = false;
@@ -18,42 +19,47 @@ class RegisterController extends ChangeNotifier {
 
     notifyListeners();
 
-    // This code means wait 3s.
+    // This code means wait 2s.
     await Future.delayed(Duration(seconds: 2));
 
-    final saveEmail = PreferencesManager().getString(StorageKey.userEmail);
-    if (saveEmail != null && emailController.text.trim() == saveEmail) {
-      errorMessage = "User Already Register.";
+    final error = await UserRepository().singUp(
+      name: userNameController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    if (error != null) {
+      errorMessage = error;
       isLoading = false;
       notifyListeners();
-    } else {
-      await PreferencesManager().setString(
-        StorageKey.userEmail,
-        emailController.text.trim(),
-      );
-      await PreferencesManager().setString(
-        StorageKey.userPassword,
-        passwordController.text.trim(),
-      );
-      await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
 
-      if (!context.mounted) return;
-
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-        (route) => false,
-      );
+      return;
     }
+
+    await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
+
+    if (!context.mounted) return;
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+      (route) => false,
+    );
+  }
+
+  String? validateUserName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your User Name';
+    }
+
+    return null;
   }
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
     }
-    final emailRegex = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
     if (!emailRegex.hasMatch(value)) {
       return 'Please enter a valid email';

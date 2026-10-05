@@ -4,10 +4,14 @@ import 'package:news_app/core/theme/light_color.dart';
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
+
   colorScheme: ColorScheme.light(),
   scaffoldBackgroundColor: LightColors.backgroundColor,
   primaryColor: LightColors.primaryColor,
   appBarTheme: AppBarTheme(
+    scrolledUnderElevation: 0,
+    // surfaceTintColor: Colors.blue,
+
     backgroundColor: Color(0xFFFFFFFF),
     titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
     iconTheme: IconThemeData(color: Colors.black),
@@ -128,7 +132,7 @@ ThemeData lightTheme = ThemeData(
   //     color: Color(0xFF161F1B),
   //   ),
   // ),
-  // dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
+  dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: Colors.black,
     selectionColor: Colors.blueAccent,
