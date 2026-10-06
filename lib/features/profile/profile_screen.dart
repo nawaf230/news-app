@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
@@ -118,7 +119,9 @@ class ProfileScreen extends StatelessWidget {
                               onTap: () {},
                             ),
                             _buildItem(
-                              title: controller.countryCode ?? 'Country',
+                              title: controller.countryCode!.isEmpty
+                                  ? 'Country'
+                                  : controller.countryCode!,
                               path: 'assets/images/flag.svg',
                               onTap: () {
                                 showCountryPicker(
@@ -141,6 +144,7 @@ class ProfileScreen extends StatelessWidget {
                               title: 'Logout',
                               path: 'assets/images/log_out.svg',
                               onTap: () async {
+                                UserRepository().delete();
                                 await PreferencesManager().clear();
                                 if (!context.mounted) return;
                                 Navigator.pushReplacement(

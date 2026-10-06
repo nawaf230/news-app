@@ -2,17 +2,20 @@
 // Do not modify
 // Check in to version control
 
-import 'package:hive_ce/hive_ce.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:news_app/core/models/user_model.dart';
+import 'package:news_app/features/bookmark/models/bookmark_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(BookmarkModelAdapter());
     registerAdapter(UserModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(BookmarkModelAdapter());
     registerAdapter(UserModelAdapter());
   }
 }

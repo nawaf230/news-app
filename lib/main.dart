@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
+import 'package:news_app/hive_registrar.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
   UserRepository().init();
+  await Hive.initFlutter();
+  Hive.registerAdapters();
   runApp(const MyApp());
 }
 

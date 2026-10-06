@@ -16,12 +16,6 @@ class UserRepository {
   Box<UserModel>? _userBox;
 
   Future<void> init() async {
-    await Hive.initFlutter();
-
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UserModelAdapter());
-    }
-
     _userBox = await Hive.openBox(StorageKey.userBox);
   }
 
@@ -67,7 +61,7 @@ class UserRepository {
   }
 
   String? login(String email, String password) {
-    final user = null;
+    final user = getUser();
 
     if (user == null) {
       return 'No account Found Please Register First.';

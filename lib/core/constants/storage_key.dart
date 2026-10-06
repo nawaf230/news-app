@@ -8,4 +8,5 @@ class StorageKey {
   static const countryCode = 'countryCode';
   static const userBox = 'userBox';
   static const currentUser = 'currentUser';
+  static const bookmark = 'bookmarkBox';
 }
