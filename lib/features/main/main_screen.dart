@@ -12,12 +12,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<Widget> _screens = [
-    HomeScreen(),
-    SearchScreen(),
-    BookmarkScreen(),
-    ProfileScreen(),
-  ];
+  final List<Widget> _screens = [HomeScreen(), SearchScreen(), BookmarkScreen(), ProfileScreen()];
 
   int _currentIndex = 0;
 
@@ -34,14 +29,8 @@ class _MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Bookmark'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outlined), label: 'Profile'),
         ],
       ),
       body: _screens[_currentIndex],

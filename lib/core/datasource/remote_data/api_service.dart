@@ -12,8 +12,7 @@ class ApiService extends BaseApiService {
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params}) async {
     var url = Uri.http(ApiConfig.baseUrl, 'v2/$endpoint', {'apiKey': ApiConfig.apiKey, ...?params});
 
-    print(url);
-    try {
+     try {
       // Here I sent the Request and I wait xthe Response.
       final response = await http.get(url);
 

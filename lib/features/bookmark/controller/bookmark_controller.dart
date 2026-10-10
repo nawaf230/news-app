@@ -28,11 +28,7 @@ class BookmarkController extends ChangeNotifier with SafeNotifyMixin {
       bookmarksStatus = RequestStatusEnum.loading;
       safeNotify();
 
-      if (searchQuery.isEmpty) {
-        bookmarks = _repository.getBookmarks();
-      } else {
-        bookmarks = _repository.searchBookmarks(searchQuery);
-      }
+      bookmarks = _repository.getBookmarks();
 
       bookmarksStatus = RequestStatusEnum.loaded;
       errorMessage = null;
