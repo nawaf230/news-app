@@ -13,10 +13,6 @@ class BookmarkController extends ChangeNotifier with SafeNotifyMixin {
   List<BookmarkModel> bookmarks = [];
   String? errorMessage;
 
-  // Search state
-  String searchQuery = '';
-  bool isSearching = false;
-
   // Constructor - auto-load bookmarks
   BookmarkController() {
     loadBookmarks();
@@ -95,20 +91,6 @@ class BookmarkController extends ChangeNotifier with SafeNotifyMixin {
       errorMessage = e.toString();
       safeNotify();
     }
-  }
-
-  /// Search bookmarks
-  void searchBookmarks(String query) {
-    searchQuery = query;
-    isSearching = query.isNotEmpty;
-    loadBookmarks();
-  }
-
-  /// Clear search
-  void clearSearch() {
-    searchQuery = '';
-    isSearching = false;
-    loadBookmarks();
   }
 
   /// Convert bookmark to article for navigation

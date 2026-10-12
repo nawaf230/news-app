@@ -8,7 +8,7 @@ class TopHeadlineShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverList.separated(
-      separatorBuilder: (context, index) => SizedBox( ),
+      separatorBuilder: (context, index) => SizedBox(),
       itemCount: 10,
       itemBuilder: (context, index) {
         return Padding(

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/home/components/news_item.dart';
-import 'package:news_app/features/home/controllers/home_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/cubit/home_state.dart';
 
 import 'components/categories_list.dart';
 
@@ -14,8 +15,8 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Categories')),
-      body: Consumer<HomeController>(
-        builder: (context, controller, child) {
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
           bool? isSelected;
 
           return Column(
@@ -37,10 +38,10 @@ class CategoriesScreen extends StatelessWidget {
                       return SizedBox(width: AppSizes.w12);
                     },
                     itemBuilder: (context, index) {
-                      isSelected = controller.selectedCategory == categories[index];
+                      isSelected = state.selectedCategory == categories[index];
                       return GestureDetector(
                         onTap: () {
-                          controller.updateSelectedCategory(categories[index]);
+                          context.read<HomeCubit>().updateSelectedCategory(categories[index]);
                         },
                         child: IntrinsicWidth(
                           child: Column(
@@ -68,9 +69,9 @@ class CategoriesScreen extends StatelessWidget {
               SizedBox(height: AppSizes.h8),
               Expanded(
                 child: ListView.builder(
-                  itemCount: controller.newsTopHeadLineList.length,
+                  itemCount: state.newsTopHeadLineList.length,
                   itemBuilder: (context, index) {
-                    final model = controller.newsTopHeadLineList[index];
+                    final model = state.newsTopHeadLineList[index];
 
                     return NewsItem(model: model);
                   },

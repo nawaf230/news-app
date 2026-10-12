@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/remote_data/api_service.dart';
 import 'package:news_app/core/repos/news_repository.dart';
-import 'package:news_app/features/search/search_screen_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/search/cubit/search_cubit.dart';
 
 import '../details/news_details_screen.dart';
 
@@ -12,12 +12,14 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SearchScreenController>(
-      create: (BuildContext context) => SearchScreenController(NewsRepository(ApiService())),
+    return BlocProvider(
+      create: (BuildContext context) => SearchCubit(NewsRepository(ApiService())),
       child: Scaffold(
         appBar: AppBar(title: Text('Search')),
-        body: Consumer<SearchScreenController>(
-          builder: (context, controller, child) {
+        body: BlocBuilder<SearchCubit, SearchState>(
+          builder: (context, state) {
+            final controller = context.read<SearchCubit>();
+
             return Column(
               children: [
                 Padding(
@@ -40,9 +42,9 @@ class SearchScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: controller.newsEverythingList.length,
+                    itemCount: state.newsEverythingList.length,
                     itemBuilder: (context, index) {
-                      final model = controller.newsEverythingList[index];
+                      final model = state.newsEverythingList[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(

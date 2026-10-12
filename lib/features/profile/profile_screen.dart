@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
@@ -10,22 +11,21 @@ import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet.dart';
-import 'package:news_app/features/profile/profile_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ProfileController>(
-      create: (BuildContext context) => ProfileController()..init(),
+    return BlocProvider(
+      create: (BuildContext context) => ProfileCubit(),
 
       child: Scaffold(
         appBar: AppBar(title: Text('Profile')),
         body: Center(
-          child: Consumer<ProfileController>(
-            builder: (context, controller, child) {
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, controller) {
               return Align(
                 alignment: Alignment.topLeft,
                 child: SingleChildScrollView(
@@ -109,7 +109,9 @@ class ProfileScreen extends StatelessWidget {
                                     return ProfileInfoBottomSheet();
                                   },
                                 ).then((value) {
-                                  controller.getUserData();
+                                  if (!context.mounted) return;
+
+                                  context.read<ProfileCubit>().getUserData();
                                 });
                               },
                             ),
@@ -119,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                               onTap: () {},
                             ),
                             _buildItem(
-                              title: controller.countryCode!.isEmpty
+                              title: (controller.countryCode == null)
                                   ? 'Country'
                                   : controller.countryCode!,
                               path: 'assets/images/flag.svg',
@@ -129,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                                   // showPhoneCode: true,
                                   // optional. Shows phone code before the country name.
                                   onSelect: (Country country) {
-                                    controller.saveCountry(country);
+                                    context.read<ProfileCubit>().saveCountry(country);
                                   },
                                   favorite: ['PS', 'EG'],
                                 );
@@ -170,7 +172,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void _showImageSourceDialog(BuildContext context) {
-    final controller = context.read<ProfileController>();
+    final controller = context.read<ProfileCubit>();
 
     showDialog(
       context: context,

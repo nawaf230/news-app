@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extensions.dart';
@@ -8,9 +9,9 @@ import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_components.dart';
-import 'package:news_app/features/home/controllers/home_controller.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/cubit/home_state.dart';
 import 'package:news_app/features/home/trending_news_screen.dart';
-import 'package:provider/provider.dart';
 
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});
@@ -42,8 +43,8 @@ class TrendingNews extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) {
-                            return ChangeNotifierProvider.value(
-                              value: context.read<HomeController>(),
+                            return BlocProvider.value(
+                              value: context.read<HomeCubit>(),
                               child: TrendingNewsScreen(),
                             );
                           },
@@ -55,15 +56,15 @@ class TrendingNews extends StatelessWidget {
                   SizedBox(
                     height: AppSizes.h140,
                     width: double.infinity,
-                    child: Consumer<HomeController>(
-                      builder: (context, controller, child) {
-                        switch (controller.everythingStatus) {
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        switch (state.everythingStatus) {
                           case RequestStatusEnum.loading:
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
                             return Center(
                               child: Text(
-                                controller.everythingErrorMessage.toString(),
+                                state.everythingErrorMessage.toString(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.blue,
@@ -76,10 +77,10 @@ class TrendingNews extends StatelessWidget {
                             return ListView.separated(
                               padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
                               separatorBuilder: (context, index) => SizedBox(width: AppSizes.w12),
-                              itemCount: controller.newsEverythingList.take(8).length,
+                              itemCount: state.newsEverythingList.take(8).length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                final model = controller.newsEverythingList[index];
+                                final model = state.newsEverythingList[index];
 
                                 return GestureDetector(
                                   onTap: () {
@@ -95,8 +96,7 @@ class TrendingNews extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(12),
                                       child: Stack(
                                         children: [
-                                          if (controller.newsEverythingList[index].urlToImage !=
-                                              null)
+                                          if (state.newsEverythingList[index].urlToImage != null)
                                             CustomCachedNetworkImage(
                                               imagePath: model.urlToImage!,
                                               width: AppSizes.w240,
