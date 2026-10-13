@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/enums/request_status_enum.dart';
+ import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/widgets/request_status_error.dart';
 import 'package:news_app/features/home/components/news_item.dart';
 import 'package:news_app/features/home/components/top_headline_shimmer.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
@@ -19,16 +19,10 @@ class TopHeadLine extends StatelessWidget {
             return TopHeadlineShimmer();
           case RequestStatusEnum.error:
             return SliverToBoxAdapter(
-              child: Center(
-                child: Text(
-                  state.topHeadLineErrorMessage.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: AppSizes.sp15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+              child: RequestStatusError(
+                onPressed: () {
+                  context.read<HomeCubit>().getTopHeadLine();
+                },
               ),
             );
           case RequestStatusEnum.loaded:

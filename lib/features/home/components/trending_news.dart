@@ -63,14 +63,19 @@ class TrendingNews extends StatelessWidget {
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
                             return Center(
-                              child: Text(
-                                state.everythingErrorMessage.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: AppSizes.sp15,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                                  SizedBox(height: AppSizes.h16),
+
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.read<HomeCubit>().getEverything();
+                                    },
+                                    child: const Text('Retry'),
+                                  ),
+                                ],
                               ),
                             );
                           case RequestStatusEnum.loaded:
