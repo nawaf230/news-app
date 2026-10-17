@@ -8,13 +8,16 @@ import 'package:news_app/features/splash/splash_screen.dart';
 import 'package:news_app/hive_registrar.g.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
+final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   Hive.registerAdapters();
   await PreferencesManager().init();
-  UserRepository().init();
+  await UserRepository().init();
   await BookmarkRepository().init();
+
   runApp(const MyApp());
 }
 
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       child: MaterialApp(
+        navigatorKey: navigationKey,
         debugShowCheckedModeBanner: false,
         title: 'News App',
         theme: lightTheme,

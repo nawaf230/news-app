@@ -37,7 +37,7 @@ dependencies:
   gap: ^3.0.1
   provider: ^6.1.5+1
   smooth_page_indicator: ^3.0.0
-  http: ^1.6.0
+  # http: ^1.6.0
   shared_preferences: ^2.5.5
   cached_network_image: ^4.0.2
   shimmer: ^4.0.0
@@ -48,7 +48,8 @@ dependencies:
   hive_ce_flutter: ^2.3.4
   flutter_bloc: ^9.1.1
   equatable: ^3.0.0
-
+  dio: ^5.11.1
+  google_fonts: ^9.0.0
 
 
 
@@ -92,10 +93,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: times
+      fonts:
+        - asset: fonts/times.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

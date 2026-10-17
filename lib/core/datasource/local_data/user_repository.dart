@@ -52,8 +52,8 @@ class UserRepository {
     }
   }
 
-  Future<void> delete() async {
-    await userBox.delete('user');
+  Future<void> deleteCurrentUser() async {
+    await userBox.delete(StorageKey.currentUser);
   }
 
   Future<void> clearAll() async {

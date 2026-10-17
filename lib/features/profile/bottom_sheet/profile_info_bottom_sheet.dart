@@ -72,6 +72,7 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                   fontSize: AppSizes.sp16,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF141414),
+                  fontFamily: 'times',
                 ),
               ),
               SizedBox(height: AppSizes.h24),

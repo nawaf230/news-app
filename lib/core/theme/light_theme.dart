@@ -13,7 +13,12 @@ ThemeData lightTheme = ThemeData(
     // surfaceTintColor: Colors.blue,
 
     backgroundColor: Color(0xFFFFFFFF),
-    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
+    titleTextStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: Color(0xFF141414),
+      fontFamily: 'times',
+    ),
     iconTheme: IconThemeData(color: Colors.black),
     centerTitle: true,
   ),
@@ -60,11 +65,12 @@ ThemeData lightTheme = ThemeData(
   //   extendedTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
   // ),
   textTheme: TextTheme(
-    //   displaySmall: TextStyle(
-    //     fontSize: 24,
-    //     fontWeight: FontWeight.w400,
-    //     color: Color(0xFF161F1B),
-    //   ),
+    displaySmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: Color(0xFF161F1B),
+      fontFamily: 'times',
+    ),
     //   displayMedium: TextStyle(
     //     fontSize: 28,
     //     color: Color(0xFF161F1B),
@@ -96,7 +102,12 @@ ThemeData lightTheme = ThemeData(
     //     fontWeight: FontWeight.w400,
     //     color: Color(0xFF161F1B),
     //   ),
-    labelMedium: TextStyle(color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w400),
+    labelMedium: TextStyle(
+      color: Color(0xFF000000),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'times',
+    ),
     //   labelLarge: TextStyle(),
   ),
 
@@ -147,6 +158,7 @@ ThemeData lightTheme = ThemeData(
       fontSize: 12,
       fontWeight: FontWeight.w500,
       color: Color(0xFF15B86C),
+      fontFamily: 'times',
     ),
     unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
     showUnselectedLabels: true,

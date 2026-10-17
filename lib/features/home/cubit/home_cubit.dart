@@ -22,6 +22,8 @@ class HomeCubit extends Cubit<HomeState> {
         state.copyWith(newsTopHeadLineList: articles, topHeadLineStatus: RequestStatusEnum.loaded),
       );
     } catch (e) {
+      if (isClosed) return;
+
       emit(
         state.copyWith(
           topHeadLineErrorMessage: e.toString(),
@@ -38,6 +40,7 @@ class HomeCubit extends Cubit<HomeState> {
         state.copyWith(newsEverythingList: articles, everythingStatus: RequestStatusEnum.loaded),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           everythingErrorMessage: e.toString(),

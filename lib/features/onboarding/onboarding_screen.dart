@@ -47,7 +47,11 @@ class OnboardingScreen extends StatelessWidget {
                           },
                           child: Text(
                             'Skip',
-                            style: TextStyle(fontSize: AppSizes.sp14, fontWeight: FontWeight.w400),
+                            style: TextStyle(
+                              fontSize: AppSizes.sp14,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'times',
+                            ),
                           ),
                         );
                 },
@@ -80,6 +84,7 @@ class OnboardingScreen extends StatelessWidget {
                                   color: Color(0xFF4E4B66),
                                   fontSize: AppSizes.sp20,
                                   fontWeight: FontWeight.w700,
+                                  fontFamily: 'times',
                                 ),
                               ),
                               SizedBox(height: AppSizes.h12),
@@ -92,6 +97,7 @@ class OnboardingScreen extends StatelessWidget {
                                   style: TextStyle(
                                     color: Color(0xFF6E7191),
                                     fontSize: AppSizes.sp16,
+                                    fontFamily: 'times',
                                   ),
                                 ),
                               ),
@@ -128,7 +134,14 @@ class OnboardingScreen extends StatelessWidget {
                           fixedSize: Size(MediaQuery.of(context).size.width, AppSizes.h48),
                         ),
 
-                        child: Text(state.isLastPage ? 'Get Started' : 'Next'),
+                        child: Text(
+                          state.isLastPage ? 'Get Started' : 'Next',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'times',
+                          ),
+                        ),
                       ),
                     ),
                   ],

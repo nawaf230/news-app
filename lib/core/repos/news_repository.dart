@@ -1,5 +1,5 @@
-import 'package:news_app/core/datasource/remote_data/api_config.dart';
-import 'package:news_app/core/datasource/remote_data/api_service.dart';
+import 'package:news_app/core/datasource/remote_data/news/news_api_config.dart';
+import 'package:news_app/core/datasource/remote_data/news/news_api_service.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
 
 abstract class BaseNewsRepository {
@@ -9,15 +9,15 @@ abstract class BaseNewsRepository {
 }
 
 class NewsRepository extends BaseNewsRepository {
-  final BaseApiService apiService;
+  final BaseNewsApiService apiService;
 
   NewsRepository(this.apiService);
 
   @override
   Future<List<NewsArticleModel>> getTopHeadLine({String selectedCategory = 'general'}) async {
     final Map<String, dynamic> result = await apiService.get(
+      NewsApiConfig.topHeadLines,
       params: {'country': 'us', 'category': selectedCategory},
-      ApiConfig.topHeadLines,
     );
 
     return (result['articles'] as List).map((e) => NewsArticleModel.formJson(e)).toList();
@@ -26,7 +26,7 @@ class NewsRepository extends BaseNewsRepository {
   @override
   Future<List<NewsArticleModel>> getEverything({String query = 'news'}) async {
     final Map<String, dynamic> result = await apiService.get(
-      ApiConfig.everything,
+      NewsApiConfig.everything,
       params: {'language': 'en', 'q': query},
     );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extensions.dart';
@@ -34,7 +35,13 @@ class TrendingNews extends StatelessWidget {
                 children: [
                   Text(
                     'NEWST',
-                    style: TextStyle(fontSize: AppSizes.sp40, color: LightColors.primaryColor),
+                    style: GoogleFonts.cinzel(
+                      textStyle: TextStyle(
+                        fontSize: AppSizes.sp40,
+                        color: LightColors.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                   SizedBox(height: AppSizes.h6),
                   ViewAllComponents(
@@ -59,6 +66,7 @@ class TrendingNews extends StatelessWidget {
                     child: BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
                         switch (state.everythingStatus) {
+                          case RequestStatusEnum.initial:
                           case RequestStatusEnum.loading:
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
@@ -95,8 +103,12 @@ class TrendingNews extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: SizedBox(
+                                  child: Container(
                                     width: AppSizes.w240,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: Colors.white),
+                                    ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
                                       child: Stack(
@@ -142,11 +154,14 @@ class TrendingNews extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   model.title,
-                                                  style: TextStyle(
-                                                    fontSize: AppSizes.sp14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Color(0xFFFFFCFC),
+                                                  style: GoogleFonts.schibstedGrotesk(
+                                                    textStyle: TextStyle(
+                                                      fontSize: AppSizes.sp14,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Color(0xFFFFFCFC),
+                                                    ),
                                                   ),
+
                                                   maxLines: 2,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -158,8 +173,21 @@ class TrendingNews extends StatelessWidget {
                                                         children: [
                                                           CircleAvatar(
                                                             radius: AppSizes.r10,
-                                                            backgroundImage: NetworkImage(
-                                                              model.urlToImage.toString(),
+                                                            backgroundColor: Colors.white,
+                                                            child: ClipOval(
+                                                              child: Image.network(
+                                                                'https://www.google.com/s2/favicons?domain=${Uri.tryParse(model.url)?.host ?? ''}&sz=64',
+                                                                width: AppSizes.r10 * 2,
+                                                                height: AppSizes.r10 * 2,
+                                                                fit: BoxFit.fill,
+                                                                errorBuilder:
+                                                                    (context, error, stackTrace) =>
+                                                                        Icon(
+                                                                          Icons.public,
+                                                                          size: AppSizes.r10,
+                                                                          color: Colors.grey,
+                                                                        ),
+                                                              ),
                                                             ),
                                                           ),
                                                           SizedBox(width: AppSizes.w5),
@@ -170,6 +198,7 @@ class TrendingNews extends StatelessWidget {
                                                                 fontSize: AppSizes.sp12,
                                                                 fontWeight: FontWeight.w400,
                                                                 color: Color(0xFFFFFCFC),
+                                                                fontFamily: 'times',
                                                               ),
                                                               maxLines: 1,
                                                             ),
@@ -184,6 +213,7 @@ class TrendingNews extends StatelessWidget {
                                                         fontSize: AppSizes.sp14,
                                                         fontWeight: FontWeight.w400,
                                                         color: Color(0xFFFFFCFC),
+                                                        fontFamily: 'times',
                                                       ),
                                                     ),
                                                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 
 class ViewAllComponents extends StatelessWidget {
@@ -21,19 +22,22 @@ class ViewAllComponents extends StatelessWidget {
               fontSize: AppSizes.sp16,
               fontWeight: FontWeight.w700,
               color: titleColor ?? Color(0xFFFFFCFC),
+              fontFamily: 'times',
             ),
           ),
           InkWell(
             onTap: () => onTap(),
             child: Text(
               'View all',
-              style: TextStyle(
-                fontSize: AppSizes.sp14,
-                fontWeight: FontWeight.w400,
-                color: titleColor ?? Color(0xFFFFFCFC),
-                decoration: TextDecoration.underline,
-                decorationColor: titleColor ?? Color(0xFFFFFCFC),
-                decorationThickness: 1.5,
+              style: GoogleFonts.schibstedGrotesk(
+                textStyle: TextStyle(
+                  fontSize: AppSizes.sp14,
+                  fontWeight: FontWeight.w400,
+                  color: titleColor ?? Color(0xFFFFFCFC),
+                  decoration: TextDecoration.underline,
+                  decorationColor: titleColor ?? Color(0xFFFFFCFC),
+                  decorationThickness: 1,
+                ),
               ),
             ),
           ),

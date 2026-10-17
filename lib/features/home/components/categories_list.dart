@@ -62,6 +62,7 @@ class CategoriesList extends StatelessWidget {
                                   fontSize: AppSizes.sp16,
                                   fontWeight: FontWeight.w400,
                                   color: isSelected! ? LightColors.primaryColor : Color(0xFF363636),
+                                  fontFamily: 'times',
                                 ),
                               ),
                               if (isSelected!) ...[

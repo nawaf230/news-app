@@ -56,5 +56,7 @@ class BookmarkModelAdapter extends TypeAdapter<BookmarkModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BookmarkModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is BookmarkModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
@@ -26,6 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool onboardingComplete =
         PreferencesManager().getBool(StorageKey.onboardingComplete) ?? false;
     final bool isLoggedIn = PreferencesManager().getBool(StorageKey.isLoggedIn) ?? false;
+    final hasAccessToken = UserRepository().getUser()?.accessToken != null;
+
     if (!mounted) return;
     if (!onboardingComplete) {
       Navigator.pushReplacement(
@@ -36,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
           },
         ),
       );
-    } else if (!isLoggedIn) {
+    } else if (!isLoggedIn && !hasAccessToken) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

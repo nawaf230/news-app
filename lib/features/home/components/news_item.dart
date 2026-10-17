@@ -38,6 +38,7 @@ class NewsItem extends StatelessWidget {
                       fontSize: AppSizes.sp16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF141414),
+                      fontFamily: 'times',
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -46,18 +47,26 @@ class NewsItem extends StatelessWidget {
                   SizedBox(height: AppSizes.h8),
                   Row(
                     children: [
-                      model.urlToImage != null
-                          ? Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xFFD3D3D3), width: 1),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(model.urlToImage!),
-                                radius: 10,
-                              ),
-                            )
-                          : SizedBox(height: AppSizes.h20, width: AppSizes.w20),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xFFD3D3D3), width: 1),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: AppSizes.r10,
+                          child: ClipOval(
+                            child: Image.network(
+                              'https://www.google.com/s2/favicons?domain=${Uri.tryParse(model.url)?.host ?? ''}&sz=64',
+                              width: AppSizes.w20,
+                              height: AppSizes.w20,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(Icons.public, size: 14, color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(width: AppSizes.w4),
                       SizedBox(
                         width: AppSizes.w70,
@@ -69,6 +78,7 @@ class NewsItem extends StatelessWidget {
                             fontSize: AppSizes.sp12,
                             fontWeight: FontWeight.w400,
                             color: Color(0xFF141414),
+                            fontFamily: 'times',
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -82,6 +92,7 @@ class NewsItem extends StatelessWidget {
                             fontSize: AppSizes.sp12,
                             fontWeight: FontWeight.w400,
                             color: Color(0xFF363636),
+                            fontFamily: 'times',
                           ),
                         ),
                       ),

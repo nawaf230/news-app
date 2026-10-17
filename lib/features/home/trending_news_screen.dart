@@ -21,6 +21,7 @@ class TrendingNewsScreen extends StatelessWidget {
           final controller = context.read<HomeCubit>();
 
           switch (state.topHeadLineStatus) {
+            case RequestStatusEnum.initial:
             case RequestStatusEnum.loading:
               return ListView.separated(
                 separatorBuilder: (context, index) => SizedBox(),

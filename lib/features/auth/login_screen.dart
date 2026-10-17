@@ -1,23 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
+import 'package:news_app/core/datasource/remote_data/auth/auth_api_service.dart';
+import 'package:news_app/core/repos/auth_repository.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
-import 'package:news_app/features/auth/controllers/login_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/auth/cubit/auth_cubit.dart';
+import 'package:news_app/features/auth/register_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
+import 'package:news_app/core/enums/request_status_enum.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginController>(
-      create: (_) => LoginController(),
-      builder: (context, _) {
-        final controller = context.read<LoginController>();
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-        return Scaffold(
-          body: Form(
-            key: controller.key,
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AuthCubit(AuthRepository(AuthApiService())),
+
+      child: Scaffold(
+        body: Form(
+          key: key,
+          child: BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state.status == RequestStatusEnum.loaded) {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (_) => const MainScreen()));
+              }
+            },
             child: Container(
               width: double.infinity,
               height: double.infinity,
@@ -43,70 +73,76 @@ class LoginScreen extends StatelessWidget {
                             fontSize: AppSizes.sp20,
                             fontWeight: FontWeight.w700,
                             color: Color(0xFF363636),
+                            fontFamily: 'times',
                           ),
                         ),
                         SizedBox(height: AppSizes.h24),
                         CustomTextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          controller: controller.emailController,
+                          controller: emailController,
                           hintText: 'usama@gmail.com',
                           title: 'Email',
-                          validator: (value) {
-                            return controller.validateEmail(value);
-                          },
                         ),
                         SizedBox(height: AppSizes.h24),
                         CustomTextFormField(
                           keyboardType: TextInputType.visiblePassword,
 
-                          controller: controller.passwordController,
+                          controller: passwordController,
                           hintText: '*************',
                           title: 'Password',
-                          validator: (value) {
-                            return controller.validatePassword(value);
-                          },
                           obscureText: true,
                         ),
 
-                        Selector<LoginController, String?>(
-                          selector: (_, LoginController controller) => controller.errorMessage,
-                          builder: (context, errorMessage, child) {
-                            return errorMessage == null
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            return state.errorMessage == null
                                 ? SizedBox()
                                 : Padding(
                                     padding: EdgeInsets.all(AppSizes.w8),
                                     child: Text(
-                                      errorMessage,
+                                      state.errorMessage!,
                                       style: TextStyle(
                                         fontSize: AppSizes.sp15,
                                         color: Color(0xFFC62828),
                                         fontWeight: FontWeight.w600,
+                                        fontFamily: 'times',
                                       ),
                                     ),
                                   );
                           },
                         ),
                         const Gap(20),
-                        Selector<LoginController, bool>(
-                          selector: (_, controller) => controller.isLoading,
-                          builder: (context, isLoading, child) {
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            final controller = context.read<AuthCubit>();
+
                             return ElevatedButton(
-                              onPressed: () {
-                                controller.login(context);
+                              onPressed: () async {
+                                await controller.login(
+                                  userName: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(MediaQuery.of(context).size.width, 48),
                               ),
-                              child: isLoading
+                              child: state.status == RequestStatusEnum.loading
                                   ? SizedBox(
                                       width: 20,
                                       height: 20,
                                       child: CircularProgressIndicator(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         strokeWidth: 3,
                                       ),
                                     )
-                                  : Text("Sign In"),
+                                  : Text(
+                                      "Sign In",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'times',
+                                      ),
+                                    ),
                             );
                           },
                         ),
@@ -120,12 +156,19 @@ class LoginScreen extends StatelessWidget {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF141414),
+                                fontFamily: 'times',
                               ),
                             ),
                             const Gap(8),
                             GestureDetector(
                               onTap: () {
-                                controller.toRegister(context);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return RegisterScreen();
+                                    },
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Sign Up',
@@ -133,6 +176,7 @@ class LoginScreen extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   color: Theme.of(context).primaryColor,
+                                  fontFamily: 'times',
                                 ),
                               ),
                             ),
@@ -145,8 +189,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

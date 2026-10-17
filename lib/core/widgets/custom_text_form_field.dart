@@ -33,12 +33,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: Theme.of(
-            context,
-          ).textTheme.displaySmall!.copyWith(fontSize: 16),
-        ),
+        Text(widget.title, style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16)),
         const Gap(8),
         TextFormField(
           keyboardType: widget.keyboardType,
@@ -56,14 +51,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       });
                     },
                     icon: _isVisible
-                        ? Icon(
-                            Icons.visibility_outlined,
-                            color: Color(0xFF363636),
-                          )
-                        : Icon(
-                            Icons.visibility_off_outlined,
-                            color: Color(0xFF363636),
-                          ),
+                        ? Icon(Icons.visibility_outlined, color: Color(0xFF363636))
+                        : Icon(Icons.visibility_off_outlined, color: Color(0xFF363636)),
                   )
                 : null,
           ),

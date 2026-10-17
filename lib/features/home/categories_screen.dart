@@ -22,6 +22,7 @@ class CategoriesScreen extends StatelessWidget {
         builder: (context, state) {
           final controller = context.read<HomeCubit>();
           switch (state.topHeadLineStatus) {
+            case RequestStatusEnum.initial:
             case RequestStatusEnum.loading:
               return ListView.separated(
                 separatorBuilder: (context, index) => SizedBox(),
@@ -95,6 +96,7 @@ class CategoriesScreen extends StatelessWidget {
                                       color: isSelected!
                                           ? LightColors.primaryColor
                                           : Color(0xFF363636),
+                                      fontFamily: 'times',
                                     ),
                                   ),
                                   if (isSelected!) ...[

@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
+import 'package:news_app/core/constants/storage_key.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet.dart';
 import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 
@@ -77,6 +79,7 @@ class ProfileScreen extends StatelessWidget {
                           fontSize: AppSizes.sp16,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF161F1B),
+                          fontFamily: 'times',
                         ),
                       ),
                       Padding(
@@ -94,6 +97,7 @@ class ProfileScreen extends StatelessWidget {
                                 fontSize: AppSizes.sp14,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF161F1B),
+                                fontFamily: 'times',
                               ),
                             ),
                             _buildItem(
@@ -146,8 +150,9 @@ class ProfileScreen extends StatelessWidget {
                               title: 'Logout',
                               path: 'assets/images/log_out.svg',
                               onTap: () async {
-                                UserRepository().delete();
-                                await PreferencesManager().clear();
+                                await UserRepository().deleteCurrentUser();
+                                await BookmarkRepository().clearAllBookmarks();
+                                await PreferencesManager().remove(StorageKey.isLoggedIn);
                                 if (!context.mounted) return;
                                 Navigator.pushReplacement(
                                   context,
@@ -225,7 +230,12 @@ class ProfileScreen extends StatelessWidget {
           onTap: () => onTap(),
           title: Text(
             title,
-            style: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400, color: color),
+            style: TextStyle(
+              fontSize: AppSizes.sp16,
+              fontWeight: FontWeight.w400,
+              color: color,
+              fontFamily: 'times',
+            ),
           ),
           leading: CustomSvgPicture.withoutColor(path: path),
           trailing: CustomSvgPicture(path: 'assets/images/arrow_right.svg', colorFilter: color),
