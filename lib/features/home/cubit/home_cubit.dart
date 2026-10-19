@@ -26,7 +26,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       emit(
         state.copyWith(
-          topHeadLineErrorMessage: e.toString(),
+          topHeadLineErrorMessage: e.toString().substring(11),
           topHeadLineStatus: RequestStatusEnum.error,
         ),
       );
@@ -43,7 +43,7 @@ class HomeCubit extends Cubit<HomeState> {
       if (isClosed) return;
       emit(
         state.copyWith(
-          everythingErrorMessage: e.toString(),
+          everythingErrorMessage: e.toString().substring(11),
           everythingStatus: RequestStatusEnum.error,
         ),
       );

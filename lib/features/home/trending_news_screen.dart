@@ -48,7 +48,10 @@ class TrendingNewsScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: SizedBox(
                         height: constraints.maxHeight * 0.9,
-                        child: RequestStatusError(onPressed: () => controller.getEverything()),
+                        child: RequestStatusError(
+                          onPressed: () => controller.getEverything(),
+                          errorMessage: state.topHeadLineErrorMessage,
+                        ),
                       ),
                     ),
                   );

@@ -15,7 +15,6 @@ class AuthApiService extends AuthBaseApiService {
       final response = await dio.post(endpoint, data: bady);
 
       final responseBody = response.data as Map<String, dynamic>;
-      print('=======$responseBody');
 
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return response.data as Map<String, dynamic>;

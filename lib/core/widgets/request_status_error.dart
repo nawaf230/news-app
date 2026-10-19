@@ -16,7 +16,7 @@ class RequestStatusError extends StatelessWidget {
         children: [
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           SizedBox(height: AppSizes.h16),
-          Text(errorMessage ?? 'An error occurred', style: TextStyle(fontSize: AppSizes.sp16)),
+          Text(errorMessage!, style: TextStyle(fontSize: AppSizes.sp16)),
           SizedBox(height: AppSizes.h16),
           ElevatedButton(onPressed: onPressed, child: const Text('Retry')),
         ],
