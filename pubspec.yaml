@@ -50,6 +50,7 @@ dependencies:
   equatable: ^3.0.0
   dio: ^5.11.1
   google_fonts: ^9.0.0
+  flutter_native_splash: ^2.4.8
 
 
 
