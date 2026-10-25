@@ -6,7 +6,6 @@ class NewsApiConfig {
   /// Endpoints
   static const String topHeadLines = 'top-headlines';
   static const String everything = 'everything';
-  static const String name = '';
 }
 
 /*

@@ -14,15 +14,25 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthRepository authRepository;
 
-  Future<void> login({required String userName, required String password}) async {
+  Future<void> login({
+    required String userName,
+    required String password,
+  }) async {
     try {
-      emit(state.copyWith(status: RequestStatusEnum.loading, errorMessage: null));
+      emit(
+        state.copyWith(status: RequestStatusEnum.loading, errorMessage: null),
+      );
 
-      final userModel = await authRepository.login(userName: userName, password: password);
+      final userModel = await authRepository.login(
+        userName: userName,
+        password: password,
+      );
 
       await PreferencesManager().setBool(StorageKey.isLoggedIn, true);
 
-      emit(state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel));
+      emit(
+        state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -43,7 +53,11 @@ class AuthCubit extends Cubit<AuthState> {
     // This code means wait 2s.
     await Future.delayed(Duration(seconds: 2));
 
-    final error = await UserRepository().singUp(name: name, email: email, password: password);
+    final error = await UserRepository().singUp(
+      name: name,
+      email: email,
+      password: password,
+    );
 
     if (error != null) {
       emit(

@@ -21,7 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
 
   @override
@@ -44,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state.status == RequestStatusEnum.loaded) {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (_) => const MainScreen()));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const MainScreen()),
+                );
               }
             },
             child: Container(
@@ -65,7 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(child: Image.asset('assets/images/logo.png', height: 46)),
+                        Center(
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            height: 46,
+                          ),
+                        ),
                         SizedBox(height: AppSizes.h34),
                         Text(
                           'Welcome to Newts',
@@ -124,7 +131,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                fixedSize: Size(MediaQuery.of(context).size.width, 48),
+                                fixedSize: Size(
+                                  MediaQuery.of(context).size.width,
+                                  48,
+                                ),
                               ),
                               child: state.status == RequestStatusEnum.loading
                                   ? SizedBox(
